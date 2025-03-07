@@ -21,7 +21,7 @@ logger = ["env_logger", "log"]
 zmq_vendored = ["zmq/vendored"]
 local_nodes_pool = []
 rich_schema = ["indy-data-types/rich_schema"]
-default = ["ffi", "log", "zmq_vendored"]
+default = ["ffi", "log", "zmq_vendored","rich_schema"]
 
 [dependencies]
 # This is added so we can lock the version that zmq uses
