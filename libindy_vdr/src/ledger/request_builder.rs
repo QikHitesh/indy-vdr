@@ -7,7 +7,7 @@ use crate::utils::did::{DidValue, DEFAULT_LIBINDY_DID};
 use crate::utils::hash::SHA256;
 use crate::utils::Qualifiable;
 
-#[cfg(any(feature = "rich_schema", test))]
+
 use super::identifiers::RichSchemaId;
 use super::identifiers::{CredentialDefinitionId, RevocationRegistryId, SchemaId};
 use super::requests::attrib::{AttribOperation, GetAttribOperation};
@@ -32,7 +32,7 @@ use super::requests::rev_reg::{
 use super::requests::rev_reg_def::{
     GetRevRegDefOperation, RegistryType, RevRegDefOperation, RevocationRegistryDefinition,
 };
-#[cfg(any(feature = "rich_schema", test))]
+
 use super::requests::rich_schema::{
     GetRichSchemaById, GetRichSchemaByIdOperation, GetRichSchemaByMetadata,
     GetRichSchemaByMetadataOperation, RSContent, RSContextOperation, RSCredDefOperation,
@@ -551,7 +551,7 @@ impl RequestBuilder {
         Ok(acceptance_data)
     }
 
-    #[cfg(any(feature = "rich_schema", test))]
+    
     #[allow(clippy::too_many_arguments)]
     /// Build a `RICH_SCHEMA` transaction request
     pub fn build_rich_schema_request(
@@ -577,7 +577,7 @@ impl RequestBuilder {
         }
     }
 
-    #[cfg(any(feature = "rich_schema", test))]
+    
     /// Build a `GET_RICH_SCHEMA_BY_ID` transaction request
     pub fn build_get_rich_schema_by_id(
         &self,
@@ -591,7 +591,7 @@ impl RequestBuilder {
         )
     }
 
-    #[cfg(any(feature = "rich_schema", test))]
+    
     /// Build a `GET_RICH_SCHEMA_BY_METADATA` transaction request
     pub fn build_get_rich_schema_by_metadata(
         &self,

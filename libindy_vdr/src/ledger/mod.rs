@@ -7,7 +7,7 @@ pub mod identifiers {
     pub use indy_data_types::RevocationRegistryId;
     pub use indy_data_types::SchemaId;
 
-    #[cfg(any(feature = "rich_schema", test))]
+
     /// Rich schema identifiers
     pub use indy_data_types::RichSchemaId;
 

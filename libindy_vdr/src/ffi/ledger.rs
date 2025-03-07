@@ -1,5 +1,5 @@
 use crate::common::error::prelude::*;
-#[cfg(any(feature = "rich_schema", test))]
+
 use crate::ledger::identifiers::RichSchemaId;
 use crate::ledger::identifiers::{CredentialDefinitionId, RevocationRegistryId, SchemaId};
 use crate::ledger::requests::auth_rule::{AuthRules, Constraint};
@@ -8,7 +8,7 @@ use crate::ledger::requests::cred_def::CredentialDefinition;
 use crate::ledger::requests::node::NodeOperationData;
 use crate::ledger::requests::rev_reg::RevocationRegistryDelta;
 use crate::ledger::requests::rev_reg_def::{RegistryType, RevocationRegistryDefinition};
-#[cfg(any(feature = "rich_schema", test))]
+
 use crate::ledger::requests::rich_schema::RSContent;
 use crate::ledger::requests::schema::Schema;
 use crate::pool::PreparedRequest;
@@ -517,7 +517,7 @@ pub extern "C" fn indy_vdr_build_txn_author_agreement_request(
     }
 }
 
-#[cfg(any(feature = "rich_schema", test))]
+
 #[no_mangle]
 pub extern "C" fn indy_vdr_build_rich_schema_request(
     submitter_did: FfiStr,
@@ -557,7 +557,7 @@ pub extern "C" fn indy_vdr_build_rich_schema_request(
     }
 }
 
-#[cfg(any(feature = "rich_schema", test))]
+
 #[no_mangle]
 pub extern "C" fn indy_vdr_build_get_rich_schema_object_by_id_request(
     submitter_did: FfiStr,
@@ -579,7 +579,7 @@ pub extern "C" fn indy_vdr_build_get_rich_schema_object_by_id_request(
     }
 }
 
-#[cfg(any(feature = "rich_schema", test))]
+
 #[no_mangle]
 pub extern "C" fn indy_vdr_build_get_rich_schema_object_by_metadata_request(
     submitter_did: FfiStr,
