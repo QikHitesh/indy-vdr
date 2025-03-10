@@ -11,6 +11,7 @@ use crate::utils::Qualifiable;
 use super::identifiers::RichSchemaId;
 use super::identifiers::{CredentialDefinitionId, RevocationRegistryId, SchemaId};
 use super::requests::attrib::{AttribOperation, GetAttribOperation};
+use super::requests::handle::HandleOperation;
 use super::requests::auth_rule::{
     AuthAction, AuthRuleOperation, AuthRules, AuthRulesOperation, Constraint, GetAuthRuleOperation,
 };
@@ -205,6 +206,18 @@ impl RequestBuilder {
         }
         self.build(GetTxnOperation::new(seq_no, ledger_type), identifier)
     }
+
+        /// Build an `HANDLE` transaction request
+        pub fn build_handle_request(
+            &self,
+            identifier: &DidValue,
+            dest: &DidValue,
+            handle: String,
+        ) -> VdrResult<PreparedRequest> {
+            let operation =
+                HandleOperation::new(dest.to_short(), handle);
+            self.build(operation, Some(identifier))
+        }
 
     /// Build a `POOL_CONFIG` transaction request
     pub fn build_pool_config_request(

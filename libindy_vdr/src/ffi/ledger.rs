@@ -134,6 +134,28 @@ pub extern "C" fn indy_vdr_build_get_attrib_request(
         Ok(ErrorCode::Success)
     }
 }
+#[no_mangle]
+pub extern "C" fn indy_vdr_build_handle_request(
+    submitter_did: FfiStr, // optional
+    target_did: FfiStr,
+    handle: FfiStr,  // optional
+    handle_p: *mut RequestHandle,
+) -> ErrorCode {
+    catch_err! {
+        trace!("Build HANDLE request");
+        check_useful_c_ptr!(handle_p);
+        let builder = get_request_builder()?;
+        let identifier = DidValue::from_str(submitter_did.as_str())?;
+        let dest = DidValue::from_str(target_did.as_str())?;
+        let handle = handle.as_str();
+        let req = builder.build_handle_request(&identifier, &dest, handle.to_string())?;
+        let reqhandle = add_request(req)?;
+        unsafe {
+            *handle_p = reqhandle;
+        }
+        Ok(ErrorCode::Success)
+    }
+}
 
 #[no_mangle]
 pub extern "C" fn indy_vdr_build_cred_def_request(

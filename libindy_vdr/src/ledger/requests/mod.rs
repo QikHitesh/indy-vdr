@@ -29,6 +29,8 @@ pub mod txn;
 /// GET_VALIDATOR_INFO operation
 pub mod validator_info;
 
+pub mod handle;
+
 use std::collections::HashMap;
 
 use serde;

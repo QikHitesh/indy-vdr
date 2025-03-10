@@ -224,6 +224,12 @@ ErrorCode indy_vdr_build_get_nym_request(FfiStr submitter_did,
                                          FfiStr dest,
                                          RequestHandle *handle_p);
 
+ErrorCode indy_vdr_build_handle_request(FfiStr submitter_did,
+                                        FfiStr target_did,
+                                        FfiStr handle,
+                                        RequestHandle *handle_p);
+
+
 ErrorCode indy_vdr_build_get_revoc_reg_def_request(FfiStr submitter_did,
                                                    FfiStr revoc_reg_id,
                                                    RequestHandle *handle_p);
