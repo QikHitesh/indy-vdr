@@ -139,6 +139,7 @@ pub extern "C" fn indy_vdr_build_handle_request(
     submitter_did: FfiStr, // optional
     target_did: FfiStr,
     handle: FfiStr,  // optional
+    handletype: FfiStr,  // optional
     handle_p: *mut RequestHandle,
 ) -> ErrorCode {
     catch_err! {
@@ -148,7 +149,8 @@ pub extern "C" fn indy_vdr_build_handle_request(
         let identifier = DidValue::from_str(submitter_did.as_str())?;
         let dest = DidValue::from_str(target_did.as_str())?;
         let handle = handle.as_str();
-        let req = builder.build_handle_request(&identifier, &dest, handle.to_string())?;
+        let handletype = handletype.as_str();
+        let req = builder.build_handle_request(&identifier, &dest, handle.to_string(),handletype.to_string())?;
         let reqhandle = add_request(req)?;
         unsafe {
             *handle_p = reqhandle;

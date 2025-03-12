@@ -213,9 +213,10 @@ impl RequestBuilder {
             identifier: &DidValue,
             dest: &DidValue,
             handle: String,
+            handletype: String,
         ) -> VdrResult<PreparedRequest> {
             let operation =
-                HandleOperation::new(dest.to_short(), handle);
+                HandleOperation::new(dest.to_short(), handle,handletype);
             self.build(operation, Some(identifier))
         }
 
