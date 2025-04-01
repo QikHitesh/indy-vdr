@@ -11,18 +11,18 @@ pub struct HandleOperation {
     #[serde(rename = "type")]
     pub _type: String,
     pub dest: ShortDidValue,
-    handle: HashMap<String, String>,
+    data: HashMap<String, String>,
 }
 
 impl HandleOperation {
     pub fn new(
         dest: ShortDidValue,
-        handle: HashMap<String, String>,
+        data: HashMap<String, String>,
     ) -> HandleOperation {
         HandleOperation {
             _type: Self::get_txn_type().to_string(),
             dest,
-            handle,
+            data,
         }
     }
 }
