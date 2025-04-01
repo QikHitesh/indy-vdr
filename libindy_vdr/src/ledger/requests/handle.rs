@@ -1,4 +1,6 @@
 
+use std::collections::HashMap;
+
 use super::constants::{HANDLE, HANDLE_GET};
 use super::did::ShortDidValue;
 use super::{get_sp_key_marker, ProtocolVersion, RequestType};
@@ -9,13 +11,13 @@ pub struct HandleOperation {
     #[serde(rename = "type")]
     pub _type: String,
     pub dest: ShortDidValue,
-    pub handle: String,
+    handle: HashMap<String, String>,
 }
 
 impl HandleOperation {
     pub fn new(
         dest: ShortDidValue,
-        handle: String,
+        handle: HashMap<String, String>,
     ) -> HandleOperation {
         HandleOperation {
             _type: Self::get_txn_type().to_string(),

@@ -48,6 +48,7 @@ use super::requests::validator_info::GetValidatorInfoOperation;
 use super::requests::{Request, RequestType};
 
 use super::constants::txn_name_to_code;
+use std::collections::HashMap;
 
 fn datetime_to_date_timestamp(time: u64) -> u64 {
     const SEC_IN_DAY: u64 = 86400;
@@ -212,7 +213,7 @@ impl RequestBuilder {
         &self,
         identifier: &DidValue,
         dest: &DidValue,
-        handle: String,
+        handle: HashMap<String, String>,
     ) -> VdrResult<PreparedRequest> {
         let operation =
             HandleOperation::new(dest.to_short(), handle);
