@@ -207,18 +207,17 @@ impl RequestBuilder {
         self.build(GetTxnOperation::new(seq_no, ledger_type), identifier)
     }
 
-        /// Build an `HANDLE` transaction request
-        pub fn build_handle_request(
-            &self,
-            identifier: &DidValue,
-            dest: &DidValue,
-            handle: String,
-            handletype: String,
-        ) -> VdrResult<PreparedRequest> {
-            let operation =
-                HandleOperation::new(dest.to_short(), handle,handletype);
-            self.build(operation, Some(identifier))
-        }
+    /// Build an `HANDLE` transaction request
+    pub fn build_handle_request(
+        &self,
+        identifier: &DidValue,
+        dest: &DidValue,
+        handle: String,
+    ) -> VdrResult<PreparedRequest> {
+        let operation =
+            HandleOperation::new(dest.to_short(), handle);
+        self.build(operation, Some(identifier))
+    }
 
     /// Build a `POOL_CONFIG` transaction request
     pub fn build_pool_config_request(

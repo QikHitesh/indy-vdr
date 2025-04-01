@@ -9,22 +9,18 @@ pub struct HandleOperation {
     #[serde(rename = "type")]
     pub _type: String,
     pub dest: ShortDidValue,
-    pub data: std::collections::HashMap<String, String>,
+    pub handle: String,
 }
 
 impl HandleOperation {
     pub fn new(
         dest: ShortDidValue,
         handle: String,
-        handletype:String
     ) -> HandleOperation {
         HandleOperation {
             _type: Self::get_txn_type().to_string(),
             dest,
-            data: vec![
-                ("handle".to_string(), handle),
-                ("type".to_string(), handletype)
-            ].into_iter().collect()
+            handle,
         }
     }
 }

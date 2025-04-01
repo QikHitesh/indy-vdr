@@ -150,7 +150,7 @@ pub extern "C" fn indy_vdr_build_handle_request(
         let dest = DidValue::from_str(target_did.as_str())?;
         let handle = handle.as_str();
         let handletype = handletype.as_str();
-        let req = builder.build_handle_request(&identifier, &dest, handle.to_string(),handletype.to_string())?;
+        let req = builder.build_handle_request(&identifier, &dest, handle.to_string())?;
         let reqhandle = add_request(req)?;
         unsafe {
             *handle_p = reqhandle;
