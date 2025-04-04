@@ -23,7 +23,7 @@ use super::requests::author_agreement::{
 use super::requests::cred_def::{CredDefOperation, CredentialDefinition, GetCredDefOperation};
 use super::requests::ledgers_freeze::{GetFrozenLedgersOperation, LedgersFreezeOperation};
 use super::requests::node::{NodeOperation, NodeOperationData};
-use super::requests::nym::{role_to_code, GetNymOperation, NymOperation};
+use super::requests::nym::{ GetNymOperation, NymOperation};
 use super::requests::pool::{
     PoolConfigOperation, PoolRestartOperation, PoolUpgradeOperation, Schedule,
 };
@@ -48,6 +48,7 @@ use super::requests::validator_info::GetValidatorInfoOperation;
 use super::requests::{Request, RequestType};
 
 use super::constants::txn_name_to_code;
+use crate::ledger::constants::UpdateRole;
 use std::collections::HashMap;
 
 fn datetime_to_date_timestamp(time: u64) -> u64 {
@@ -124,28 +125,40 @@ impl RequestBuilder {
         ))
     }
 
+
     /// Build a `NYM` transaction request
+    /// diddoc_content is only supported for did:indy compliant ledgers
+    #[allow(clippy::too_many_arguments)]
     pub fn build_nym_request(
         &self,
         identifier: &DidValue,
         dest: &DidValue,
         verkey: Option<String>,
         alias: Option<String>,
-        role: Option<String>,
+        role: Option<UpdateRole>,
+        diddoc_content: Option<&SJsonValue>,
+        version: Option<i32>,
     ) -> VdrResult<PreparedRequest> {
-        let role = role_to_code(role)?;
-        let operation = NymOperation::new(dest.to_short(), verkey, alias, role);
+        let operation = NymOperation::new(
+            dest.to_short(),
+            verkey,
+            alias,
+            role,
+            diddoc_content.map(SJsonValue::to_string),
+            version,
+        );
         self.build(operation, Some(identifier))
     }
 
-    /// Build a `GET_NYM` transaction request
     pub fn build_get_nym_request(
         &self,
         identifier: Option<&DidValue>,
         dest: &DidValue,
+        seq_no: Option<i32>,
+        timestamp: Option<u64>,
     ) -> VdrResult<PreparedRequest> {
         let dest = dest.to_short();
-        let operation = GetNymOperation::new(dest);
+        let operation = GetNymOperation::new(dest, seq_no, timestamp);
         self.build(operation, identifier)
     }
 
@@ -727,8 +740,8 @@ mod tests {
             request_builder: RequestBuilder,
         ) {
             let request = request_builder
-                .build_nym_request(&_identifier(), &_dest(), None, None, None)
-                .unwrap();
+            .build_nym_request(&_identifier(), &_dest(), None, None, None, None, None)
+            .unwrap();
 
             assert_eq!(request.txn_type, constants::NYM);
             assert_eq!(request.method, RequestMethod::Consensus);
@@ -739,7 +752,7 @@ mod tests {
             request_builder: RequestBuilder,
         ) {
             let request = request_builder
-                .build_get_nym_request(None, &_dest())
+                .build_get_nym_request(None, &_dest(), None, None)
                 .unwrap();
 
             assert_eq!(request.txn_type, constants::GET_NYM);
@@ -942,6 +955,7 @@ mod tests {
         assert_eq!(json!(taa), prepared_request.req_json["taaAcceptance"]);
     }
 
+
     #[rstest(
         protocol_version,
         case(ProtocolVersion::Node1_3),
@@ -949,7 +963,7 @@ mod tests {
     )]
     fn test_prepare_request_for_different_protocol_versions(protocol_version: ProtocolVersion) {
         let request = RequestBuilder::new(protocol_version)
-            .build_get_nym_request(None, &_dest())
+            .build_get_nym_request(None, &_dest(), None, None)
             .unwrap();
 
         assert_eq!(request.protocol_version, protocol_version);
